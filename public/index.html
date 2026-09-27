@@ -97,8 +97,28 @@
   <header class="header">
     <div class="container">
       <h1>Design <span>Evaluation Suite</span></h1>
+      <div class="btn-group">
+        <button class="btn btn-sm btn-secondary" id="aboutBtn">About</button>
+      </div>
     </div>
   </header>
+
+  <!-- About Modal -->
+  <div id="aboutModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:300; align-items:center; justify-content:center; cursor:pointer; padding:20px">
+    <div style="background:#fff; border-radius:12px; padding:40px 36px; max-width:440px; width:100%; text-align:center; cursor:default; box-shadow:0 8px 32px rgba(0,0,0,0.15)" onclick="event.stopPropagation()">
+      <h2 style="font-size:1.2rem; font-weight:700; margin-bottom:24px; color:var(--text)">Design Evaluation Suite</h2>
+      <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:6px">Based on evaluation frameworks by</p>
+      <p style="font-size:1.05rem; font-weight:700; color:var(--text); margin-bottom:2px">Prof. WonJoon Chung, Ph.D.</p>
+      <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:24px">Associate Professor, School of Industrial Design</p>
+      <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:6px">Designed and developed by</p>
+      <p style="font-size:1.05rem; font-weight:700; color:var(--text); margin-bottom:2px">Aya Al-Shaikhly</p>
+      <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:24px">Master's Student, School of Industrial Design</p>
+      <div style="border-top:1px solid var(--border-light); padding-top:16px; margin-top:8px">
+        <p style="font-size:0.82rem; color:var(--text-muted)">Carleton University, Ottawa, ON</p>
+      </div>
+      <button onclick="document.getElementById('aboutModal').style.display='none'" style="margin-top:20px; padding:8px 28px; border:1px solid var(--border); border-radius:6px; background:#fff; font-family:var(--font); font-size:0.85rem; cursor:pointer; font-weight:500">Close</button>
+    </div>
+  </div>
 
   <main>
     <div class="container">
@@ -140,6 +160,12 @@
     document.getElementById('metaCard').addEventListener('click', function(e) {
       e.preventDefault();
       window.location.href = window.BASE + 'metaphoric.html';
+    });
+    document.getElementById('aboutBtn').addEventListener('click', function() {
+      document.getElementById('aboutModal').style.display = 'flex';
+    });
+    document.getElementById('aboutModal').addEventListener('click', function(e) {
+      if (e.target === this) this.style.display = 'none';
     });
   })();
   </script>
