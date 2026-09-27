@@ -50,7 +50,35 @@ module.exports = async function handler(req, res) {
     await sql`ALTER TABLE ratings ADD COLUMN IF NOT EXISTS n5 INTEGER NOT NULL DEFAULT 3`;
     await sql`ALTER TABLE ratings ADD COLUMN IF NOT EXISTS f5 INTEGER NOT NULL DEFAULT 3`;
 
-    res.status(200).json({ ok: true, message: 'Tables ready.' });
+    // Metaphoric Design Evaluation tables
+    await sql`
+      CREATE TABLE IF NOT EXISTS meta_sessions (
+        id TEXT PRIMARY KEY,
+        group_id TEXT NOT NULL,
+        group_name TEXT NOT NULL DEFAULT 'General',
+        presenter TEXT NOT NULL,
+        target_product TEXT NOT NULL DEFAULT 'product',
+        num_ideas INTEGER NOT NULL DEFAULT 3,
+        idea1 TEXT NOT NULL DEFAULT 'Idea 1',
+        idea2 TEXT,
+        idea3 TEXT,
+        class_size INTEGER NOT NULL DEFAULT 28,
+        created_at TIMESTAMPTZ DEFAULT NOW()
+      )
+    `;
+
+    await sql`
+      CREATE TABLE IF NOT EXISTS meta_ratings (
+        id SERIAL PRIMARY KEY,
+        session_id TEXT NOT NULL,
+        idea_number INTEGER NOT NULL CHECK (idea_number BETWEEN 1 AND 3),
+        abstraction INTEGER NOT NULL CHECK (abstraction BETWEEN 1 AND 5),
+        relevance INTEGER NOT NULL CHECK (relevance BETWEEN 1 AND 5),
+        created_at TIMESTAMPTZ DEFAULT NOW()
+      )
+    `;
+
+    res.status(200).json({ ok: true, message: 'All tables ready (MAYA + Metaphoric).' });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
