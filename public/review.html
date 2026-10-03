@@ -605,7 +605,6 @@
     });
 
     // ---- Passcode ----
-    const PASSCODE_HASH = '5a5b0f9b7e3d1c8a'; // hashed version of the passcode
     const SESSION_KEY = 'maya_review_auth';
 
     function hashCode(str) {
@@ -616,18 +615,21 @@
       return (h >>> 0).toString(16).padStart(8, '0');
     }
 
-    function checkPasscode(input) {
-      return input === 'chung';
+    async function checkPasscode(input) {
+      try {
+        const r = await fetch(window.BASE + 'api/check-passcode', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ passcode: input }) });
+        return r.ok;
+      } catch { return false; }
     }
 
     function isAuthenticated() {
       return sessionStorage.getItem(SESSION_KEY) === 'true';
     }
 
-    document.getElementById('passcodeForm').addEventListener('submit', (e) => {
+    document.getElementById('passcodeForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const input = document.getElementById('passcodeInput').value;
-      if (checkPasscode(input)) {
+      if (await checkPasscode(input)) {
         sessionStorage.setItem(SESSION_KEY, 'true');
         document.getElementById('passcodeView').classList.add('hidden');
         document.getElementById('groupsView').classList.remove('hidden');

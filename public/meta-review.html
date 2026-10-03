@@ -508,11 +508,18 @@
     });
 
     // ---- Passcode ----
+    async function checkPasscode(input) {
+      try {
+        const r = await fetch(window.BASE + 'api/check-passcode', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ passcode: input }) });
+        return r.ok;
+      } catch { return false; }
+    }
+
     var SESSION_KEY = 'meta_review_auth';
-    document.getElementById('passcodeForm').addEventListener('submit', function(e) {
+    document.getElementById('passcodeForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       var input = document.getElementById('passcodeInput').value;
-      if (input === 'chung') {
+      if (await checkPasscode(input)) {
         sessionStorage.setItem(SESSION_KEY, 'true');
         document.getElementById('passcodeView').classList.add('hidden');
         document.getElementById('groupsView').classList.remove('hidden');

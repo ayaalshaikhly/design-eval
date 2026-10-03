@@ -3,3 +3,9 @@ node_modules/
 .env
 .env.local
 svg/png_temp/
+
+.env*
+
+# Guides contain the instructor passcode; keep them local only
+Instructor Guide.*
+Recording.mp4

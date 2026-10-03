@@ -6,7 +6,7 @@ module.exports = async function handler(req, res) {
   const sql = neon(process.env.DATABASE_URL);
   const { passcode, scope } = req.body;
 
-  if (passcode !== 'chung') {
+  if (!process.env.INSTRUCTOR_PASSCODE || passcode !== process.env.INSTRUCTOR_PASSCODE) {
     return res.status(403).json({ error: 'Invalid passcode' });
   }
 
